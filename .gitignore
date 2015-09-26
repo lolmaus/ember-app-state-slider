@@ -16,6 +16,7 @@
 npm-debug.log
 testem.log
 .divshot-cache
+divshot-debug.log
 
 # IDE
 /.idea/

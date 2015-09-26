@@ -41,3 +41,5 @@ But keep in mind that it's just a quick proof of concept. It will blow up users'
 ### What can be improved
 
 The implementation is naive: it watches for every attribute or relationship change. When a relationship changes, Ember does its relationship bookkeeping, producing intermediate states. Those intermetdiate states should be filtered out. Currently only a very crude check filters out a certain invalid intermediate state and leaves the rest.
+
+Currently the service assumes that the application serializer is JSONAPISerializer. It should use  JSONAPISerializer regardless of application serializer.
