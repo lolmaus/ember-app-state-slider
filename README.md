@@ -1,53 +1,43 @@
-# Ember-app-state-slider
+# Immutable state management in Ember
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This is a crude todo app.
 
-## Prerequisites
+You have to fiddle with it for a while: create new todos, edit existing, delete, create some more, etc. Then use the slider to switch between states you just produced.
 
-You will need the following things properly installed on your computer.
+Read the post to the right for details.
 
-* [Git](http://git-scm.com/)
-* [Node.js](http://nodejs.org/) (with NPM)
-* [Bower](http://bower.io/)
-* [Ember CLI](http://www.ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/)
+[Demo](http://ember-app-state-slider.divshot.io/)
 
-## Installation
 
-* `git clone <repository-url>` this repository
-* change into the new directory
-* `npm install`
-* `bower install`
+### Preamble
 
-## Running / Development
+Hey. [@lolmaus](https://github.com/lolmaus) here.
 
-* `ember server`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+Throughout the last year, every JS meetup got me increasingly bored with the hype around React and related "architectures" like Flux, Redux, Reflux, etc.
 
-### Code Generators
+From a characteristic reactboy's perspective, one of the most important React features is that all the application state is stored in a single enormous plain object, which can be immutable. On every user action, a new state object instance is produced. By not throwing previous state object instances away, you can efforlessly implement undo-redo functionality.
 
-Make use of the many generators for code, try `ember help generate` for more details
+Some reactboys are so hyped on this that they literally consider the React paradigm to be the only "true" way to develop interfaces. Ember's OOP paradigm in their eyes is inherently broken.
 
-### Running Tests
 
-* `ember test`
-* `ember test --server`
+### What's this
 
-### Building
+On the recent MoscowJS meetup, the brightest demo of React immutability virtues was [a TodoMVC app](https://github.com/calesce/redux-slider-monitor) that saved previous states and allowed switching between them with a slider. By steadily dragging the slider you could see all your edits sequentially (dis)appearing.
 
-* `ember build` (development)
-* `ember build --environment production` (production)
+I decided to implement the same thing in Ember to demonstrate that immutable state management in not a feature specific to React.
 
-### Deploying
+I didn't put much effor into it, made it over an idle Saturday afternoon. **The whole thing is only about 150 lines long** (with up to a half of 'em being non-meaningful lines). I spent more time on building the todo functionality. Was too lazy to use a TodoMVC boilerplace, so no good looks.
 
-Specify what it takes to deploy your app.
 
-## Further Reading / Useful Links
+### How it works
 
-* [ember.js](http://emberjs.com/)
-* [ember-cli](http://www.ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+It consists of a [service](https://github.com/lolmaus/ember-app-state-slider/blob/development/app/services/state.js) to manage states and a [mixin](https://github.com/lolmaus/ember-app-state-slider/blob/development/app/mixins/model-save-state.js) to let models records notify the service of changes. If you don't include the mixin, you can instead manually configure a model to poke the service when necessary.
 
+**The implementation should work with any Ember Data models and you don't need to customize anything in your app**.
+
+But keep in mind that it's just a quick proof of concept. It will blow up users' RAM if you use it in production.
+
+
+### What can be improved
+
+The implementation is naive: it watches for every attribute or relationship change. When a relationship changes, Ember does its relationship bookkeeping, producing intermediate states. Those intermetdiate states should be filtered out. Currently only a very crude check filters out a certain invalid intermediate state and leaves the rest.

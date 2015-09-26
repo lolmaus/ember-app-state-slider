@@ -91,7 +91,7 @@ I didn't put much effor into it, made it over an idle Saturday afternoon. **The 
 
 ### How it works
 
-It consists of a service to manage states and a mixin to let model records notify the service of changes. If you don't include the mixin, you can instead manually configure a model to poke the service when necessary.
+It consists of a [service](https://github.com/lolmaus/ember-app-state-slider/blob/development/app/services/state.js) to manage states and a [mixin](https://github.com/lolmaus/ember-app-state-slider/blob/development/app/mixins/model-save-state.js) to let models records notify the service of changes. If you don't include the mixin, you can instead manually configure a model to poke the service when necessary.
 
 **The implementation should work with any Ember Data models and you don't need to customize anything in your app**.
 
