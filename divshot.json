@@ -1,0 +1,13 @@
+{
+  "name": "ember-app-state-slider",
+  "root": "./dist",
+  "clean_urls": true,
+  "routes": {
+    "/tests": "tests/index.html",
+    "/tests/**": "tests/index.html",
+    "/**": "index.html"
+  },
+  "cache_control": {
+    "/assets/**": 31536000
+  }
+}

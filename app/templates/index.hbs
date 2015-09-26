@@ -1,0 +1,108 @@
+<div style="width: 45%; float: left;">
+
+{{#ember-markdown-section}}
+
+  Here is a crude todo app.
+
+  You have to fiddle with it for a while: create new todos, edit existing, delete, create some more, etc. Then use the slider to switch between states you just produced.
+
+  Read the post to the right for details.
+
+{{/ember-markdown-section}}
+
+<br><br><br>
+
+{{x-slider
+  id="stateSlider"
+  min=0
+  max=state.lastStateIndex
+  step=1
+  value=state.currentStateIndex}}
+
+<span id="stateCount" style="float: right;">{{state.lastStateIndex}}</span>
+
+<p>
+  New task:
+  {{#if list.newTask}}
+    {{task-edit
+      task=list.newTask
+      isNew=true
+      acceptNewTask=(action 'acceptNewTask')}}
+  {{else}}
+    record missing: the app is in an intermediate state. Drag the slider a bit to the right.
+  {{/if}}
+</p>
+
+<ul>
+  {{#each list.activeTasks as |task|}}
+    <li>
+
+      {{#if (eq task list.editedTask)}}
+        {{task-edit
+          task=task
+          finishEditTask=(action 'finishEditTask')}}
+      {{else}}
+        {{task.name}}
+        <button {{action 'editTask' task}}>Edit</button>
+        <button {{action 'deleteTask' task}}>Delete</button>
+      {{/if}}
+    </li>
+  {{/each}}
+</ul>
+</div>
+
+{{!--
+<h3>States</h3>
+<p>
+  {{#each state.states as |s i|}}
+    <a
+      href
+      {{action 'setState' i}}
+    >
+      {{i}}
+    </a>
+  {{/each}}
+</p>
+--}}
+
+<div style="width: 45%; float: right">
+
+{{#ember-markdown-section}}
+
+### Preamble
+
+Hey. [@lolmaus](https://github.com/lolmaus) here.
+
+Throughout the last year, every JS meetup got me increasingly bored with the hype around React and related "architectures" like Flux, Redux, Reflux, etc.
+
+From a characteristic reactboy's perspective, one of the most important React features is that all the application state is stored in a single enormous plain object, which can be immutable. On every user action, a new state object instance is produced. By not throwing previous state object instances away, you can efforlessly implement undo-redo functionality.
+
+Some reactboys are so hyped on this that they literally consider the React paradigm to be the only "true" way to develop interfaces. Ember's OOP paradigm in their eyes is inherently broken.
+
+
+### What's this
+
+On the recent MoscowJS meetup, the brightest demo of React immutability virtues was [a TodoMVC app](https://github.com/calesce/redux-slider-monitor) that saved previous states and allowed switching between them with a slider. By steadily dragging the slider you could see all your edits sequentially (dis)appearing.
+
+I decided to implement the same thing in Ember to demonstrate that immutable state management in not a feature specific to React.
+
+I didn't put much effor into it, made it over an idle Saturday afternoon. **The whole thing is only about 150 lines long** (with up to a half of 'em being non-meaningful lines). I spent more time on building the todo functionality. Was too lazy to use a TodoMVC boilerplace, so no good looks.
+
+
+### How it works
+
+It consists of a service to manage states and a mixin to let model records notify the service of changes. If you don't include the mixin, you can instead manually configure a model to poke the service when necessary.
+
+**The implementation should work with any Ember Data models and you don't need to customize anything in your app**.
+
+But keep in mind that it's just a quick proof of concept. It will blow up users' RAM if you use it in production.
+
+
+### What can be improved
+
+The implementation is naive: it watches for every attribute or relationship change. When a relationship changes, Ember does its relationship bookkeeping, producing intermediate states. Those intermetdiate states should be filtered out. Currently only a very crude check filters out a certain invalid intermediate state and leaves the rest.
+
+
+
+{{/ember-markdown-section}}
+</div>
