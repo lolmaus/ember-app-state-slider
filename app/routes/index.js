@@ -56,7 +56,8 @@ export default Ember.Route.extend({
           type: 'tasks',
           id: '3',
           attributes: {
-            name: 'Baz'
+            name: 'Baz',
+            'is-complete': true
           },
           relationships: {
             list: {

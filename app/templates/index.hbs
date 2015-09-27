@@ -35,20 +35,39 @@
 
 <ul>
   {{#each list.activeTasks as |task|}}
-    <li>
+    <li style="clear: both; margin-bottom: 3px;">
 
       {{#if (eq task list.editedTask)}}
         {{task-edit
           task=task
           finishEditTask=(action 'finishEditTask')}}
       {{else}}
-        {{task.name}}
-        <button {{action 'editTask' task}}>Edit</button>
-        <button {{action 'deleteTask' task}}>Delete</button>
+        <label style="cursor: pointer;">
+          {{input type="checkbox" checked=task.isComplete}}
+          <span class={{if task.isComplete "is-complete"}}>
+            {{task.name}}
+          </span>
+        </label>
+
+        <span style="float: right">
+          <button {{action 'editTask' task}} >Edit</button>
+          <button {{action 'deleteTask' task}}>Delete</button>
+        </span>
       {{/if}}
     </li>
   {{/each}}
 </ul>
+
+<button {{action 'toggleComplete'}}>
+  {{if
+    (eq list.activeTasks.length list.completeTasks.length)
+    "Mark all incomplete"
+    "Mark all complete"}}
+</button>
+
+<button {{action 'clearComplete'}}>
+  Delete complete
+</button>
 </div>
 
 {{!--

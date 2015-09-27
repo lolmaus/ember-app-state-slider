@@ -25,6 +25,14 @@ export default E.Controller.extend({
     deleteTask (task) {
       task.deleteRecord();
       //this.get('state').fetchNewState();
+    },
+
+    clearComplete () {
+      this.get('list').clearComplete();
+    },
+
+    toggleComplete () {
+      this.get('list').toggleComplete();
     }
   }
 });

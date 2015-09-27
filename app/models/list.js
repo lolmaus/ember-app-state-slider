@@ -17,6 +17,8 @@ export default DS.Model.extend(ModelSaveStateMixin, {
       .filter(t => t !== newTask && !t.get('isDeleted'));
   }),
 
+  completeTasks: E.computed.filterBy('activeTasks', 'isComplete', true),
+
   produceNewTask () {
     return this.store.createRecord('task', {
       id:   faker.random.uuid(),
@@ -26,5 +28,19 @@ export default DS.Model.extend(ModelSaveStateMixin, {
 
   acceptNewTask () {
     this.set('newTask', this.produceNewTask());
+  },
+
+  clearComplete () {
+    this
+      .get('completeTasks')
+      .forEach(t => t.deleteRecord());
+  },
+
+  toggleComplete () {
+    const value = this.get('completeTasks.length') !== this.get('activeTasks.length');
+
+    this
+      .get('activeTasks')
+      .forEach(t => t.set('isComplete', value));
   }
 });

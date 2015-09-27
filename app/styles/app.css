@@ -1,3 +1,7 @@
 #stateSlider {
   width: 100%;
 }
+
+.is-complete {
+  text-decoration: line-through;
+}
