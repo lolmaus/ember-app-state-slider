@@ -58,14 +58,20 @@
   {{/each}}
 </ul>
 
-<button {{action 'toggleComplete'}}>
+<button
+  {{action 'toggleComplete'}}
+  disabled={{not list.activeTasks.length}}
+>
   {{if
     (eq list.activeTasks.length list.completeTasks.length)
     "Mark all incomplete"
     "Mark all complete"}}
 </button>
 
-<button {{action 'clearComplete'}}>
+<button
+  {{action 'clearComplete'}}
+  disabled={{not list.completeTasks.length}}
+>
   Delete complete
 </button>
 </div>
