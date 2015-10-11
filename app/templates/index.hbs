@@ -127,7 +127,7 @@ For efficiency, saving states should be triggered manually by calling the serial
 
 ### What can be improved
 
-The implementation is of the model mixin naive: it watches for every attribute or relationship change. When a relationship changes, Ember does its relationship bookkeeping, causing the mixin to save more states. Those intermetdiate states should be filtered out because they represent an invalid application state. To work around that, I implemented a very crude filtering in the service itself ([1](https://github.com/lolmaus/ember-app-state-slider/blob/development/app/services/state.js#L60-L61), [2](https://github.com/lolmaus/ember-app-state-slider/blob/development/app/services/state.js#L66-L70)).
+The implementation of the model mixin is naive: it watches for every attribute or relationship change. When a relationship changes, Ember does its relationship bookkeeping, causing the mixin to save more states. Those intermetdiate states should be filtered out because they represent an invalid application state. To work around that, I implemented a very crude filtering in the service itself ([1](https://github.com/lolmaus/ember-app-state-slider/blob/development/app/services/state.js#L60-L61), [2](https://github.com/lolmaus/ember-app-state-slider/blob/development/app/services/state.js#L66-L70)).
 
 Also, the whole thing is just a quick proof of concept. It will blow up users' RAM if you use it in production without serious enhancement.
 
